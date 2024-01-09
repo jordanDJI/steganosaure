@@ -8,7 +8,7 @@ def lsb1_stegano(image_path, message):
     binary_message="".join(format(ord(carac), '08b') for carac in message)
 
     if len(binary_message)>image_array.size:
-        raise Exception("La taille du ")
+        raise Exception("La taille du message est superieur aux nombre de pixels de l'image")
     
     #on ecrit dans l'image
     nb_row,nb_cols, nb_canals = image_array.shape
@@ -38,9 +38,10 @@ def lsb1_extract_message(stegano_img_path):
 
                 binary_message_list.append(str(binary_array_message[index_row, index_cols, index_canals]))
 
+    #on elimine les caracteres vides
     for index_binary_char in range(0,index_row*index_cols*index_canals,8):
         if binary_message_list[index_binary_char:index_binary_char+8]==["0"]*8:
-            binary_message_list=binary_message_list[ : index_binary_char]
+            binary_message_list=binary_message_list[ : index_binary_char] #slicing
             break
     binary_message = "".join(binary_message_list)
     message = "".join([chr(int(binary_message[i:i+8], 2)) for i in range(0, len(binary_message), 8)])
@@ -48,3 +49,10 @@ def lsb1_extract_message(stegano_img_path):
 
 if  __name__ == "__main__":
     lsb1_stegano("../image_entree.png","coucou les loulou")
+    lsb1_extract_message()
+
+
+
+    # comprehention de list
+
+    
